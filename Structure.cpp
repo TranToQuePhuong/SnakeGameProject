@@ -13,16 +13,42 @@ bool gameover;
 enum eDirec{STOP =0,LEFT,RIGHT,UP,DOWN};
 enum eDirec dir;
 void Setup(){
+ 	srand(time(NULL));
 	gameover = false;
+	dir = STOP;
     x = width/2;
     y=height/2;
-    fruitX=rand()/width;
-    fruitY=rand()/height;
+    fruitX=rand()%width;
+    fruitY=rand()%height;
     score=0;
 }
 
+void clearScreen()
+{
+    HANDLE hOut;
+    COORD Position;
+
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    Position.X = 0;
+    Position.Y = 0;
+    SetConsoleCursorPosition(hOut, Position);
+}
+
+void ShowConsoleCursor(bool showFlag)
+{
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    CONSOLE_CURSOR_INFO     cursorInfo;
+
+    GetConsoleCursorInfo(out, &cursorInfo);
+    cursorInfo.bVisible = showFlag; // set the cursor visibility
+    SetConsoleCursorInfo(out, &cursorInfo);
+}
+
 void Draw(){
-    system("cls"); //system clear
+    clearScreen(); //system clear
+    int i,j;
 for (i=0;i<=height;i++){
     for (j=0;j<=width;j++){
         if (i==0||i==height){
@@ -30,12 +56,24 @@ for (i=0;i<=height;i++){
         else{
             if(j==0||j==width)
             printf("+ ");
+            if(j==0||j==width)
+                printf("+ ");
+            if(y>=height){
+                y=1;
+            }
+            if(i==y && j==x)
+            printf("O ");
+            else if(i==fruitY&&j==fruitX)
+              /*  SetConsoleTextAttribute()*/
+                printf(" F");
+            else if(i==fruitYdie && j==fruitXdie)
+                    printf(" D");
             else
                 printf("  ");}}
 
     printf("\n");
 }
-            printf("GAME START! \t\t\t Score:");
+            printf("GAME START! \t\t\t Score: %d",score);
 }
 
 void Input(){
