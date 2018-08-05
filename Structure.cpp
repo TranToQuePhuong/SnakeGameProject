@@ -8,8 +8,10 @@ using namespace std;
 
 const int width=50;
 const int height=20;
-int i,j,x,y,fruitX,fruitXdie,fruitYdie,fruitY,score;
+int i,j,k,x,y,fruitX,fruitY,fruitXdie,fruitYdie,score;
+int nTail=0;
 bool gameover;
+int tailX[100],tailY[100];
 enum eDirec{STOP =0,LEFT,RIGHT,UP,DOWN};
 enum eDirec dir;
 void Setup(){
@@ -56,8 +58,6 @@ for (i=0;i<=height;i++){
         else{
             if(j==0||j==width)
             printf("+ ");
-            if(j==0||j==width)
-                printf("+ ");
             if(y>=height){
                 y=1;
             }
@@ -68,9 +68,21 @@ for (i=0;i<=height;i++){
                 printf(" F");
             else if(i==fruitYdie && j==fruitXdie)
                     printf(" D");
-            else
-                printf("  ");}}
+            	else{
+            		bool print=false;
+            		for(k=0;k<nTail;k++){
+            			if (tailX[k]==j && tailY[k]==i){
+            				printf("o ");
+            				print=true;
+						}
+					}
+					if (!print){
+						printf("  ");
+					}
 
+			 	}
+		}
+	}
     printf("\n");
 }
             printf("GAME START! \t\t\t Score: %d",score);
@@ -108,6 +120,19 @@ void Input(){
 }
 
 void Logic(){
+	int prevX=tailX[0];
+	int prevY=tailY[0];
+	int tmpX,tmpY;
+	tailX[0]=x;
+	tailY[0]=y;
+	for (i=1;i<nTail;i++){
+		tmpX=tailX[i];
+		tmpY=tailY[i];
+		tailX[i]=prevX;
+		tailY[i]=prevY;
+		prevX=tmpX;
+		prevY=tmpY;
+	}
      switch(dir){
     case LEFT:
         x--;
@@ -145,7 +170,8 @@ void Logic(){
         score++;
         fruitX = rand()%width;
         fruitY = rand()%height;
-        if(score%10==0 && score!=0){
+        nTail++;
+		if(score%10==0 && score!=0){
             fruitXdie = rand()%width;
             fruitYdie = rand()%height;
         if (fruitX==0)
@@ -161,9 +187,10 @@ void Logic(){
 }
 
 int main(){
+	ShowConsoleCursor(false);
     Setup();
     while(!gameover){
-        Sleep(100);
+        Sleep(50);
         Draw();
         Input();
         Logic();
