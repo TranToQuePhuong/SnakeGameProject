@@ -31,6 +31,20 @@ for (i=0;i<=height;i++){
         else{
             if(j==0||j==width)
             printf("+ ");
+            if(j==0||j==width)
+                printf("+ ");
+            if(y>=height){
+                y=1;
+            }
+            if(y<1) {
+                y=height-1;
+            }
+            if(x>=width){
+                x=0;
+            }
+            if(x<0) {
+                x=width-1;
+            }
             if(i==y && j==x)
             printf("O ");
             else if(i==fruitY&&j==fruitX)
@@ -102,13 +116,21 @@ void Logic(){
         if(score%10==0 && score!=0){
             fruitXdie = rand()%width;
             fruitYdie = rand()%height;
+        if (fruitX==0)
+            fruitX++;
+        if (fruitX==width)
+            fruitX--;
+        if (fruitY==0)
+            fruitY++;
+        if (fruitY==height)
+            fruitY--;
         }
     }
 }
 int main(){
     Setup();
     while(gameover==0){
-        Sleep(100);
+        Sleep(10);
         Draw();
         Input();
         Logic();
