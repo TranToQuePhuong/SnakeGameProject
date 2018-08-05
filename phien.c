@@ -43,7 +43,7 @@ for (i=0;i<=height;i++){
 
     printf("\n");
 }
-            printf("GAME START! \t\t\t Score:");
+            printf("GAME START! \t\t\t Score: %d",score);
 }
 
 void Input(){
