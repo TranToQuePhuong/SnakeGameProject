@@ -159,10 +159,6 @@ void Logic(){
         }
     }
 }
-void clrscr()
-{
-    system("@cls||clear");
-}
 int main(){
     ShowConsoleCursor(false);
     Setup();
@@ -172,8 +168,5 @@ int main(){
         Input();
         Logic();
     }
-    clrscr();
-    printf("\n\n");
-    printf("\t\tGAME OVER!");
 return 0;
 }
