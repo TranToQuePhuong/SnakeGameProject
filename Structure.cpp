@@ -8,7 +8,7 @@ using namespace std;
 
 const int width=50;
 const int height=20;
-int i,j,x,y,fruitX,fruitY,score;
+int i,j,x,y,fruitX,fruitXdie,fruitYdie,fruitY,score;
 bool gameover;
 enum eDirec{STOP =0,LEFT,RIGHT,UP,DOWN};
 enum eDirec dir;
@@ -70,6 +70,56 @@ void Input(){
 }
 
 void Logic(){
+     switch(dir){
+    case LEFT:
+        x--;
+        break;
+    case RIGHT:
+        x++;
+
+        break;
+    case UP:
+        y--;
+
+        break;
+    case DOWN:
+        y++;
+
+        break;
+    default:
+        break;
+    }
+    if(y<1){
+        y=height-1;
+    }
+    if(x>=width){
+        x=0;
+    }
+    if(x<0){
+        x=width-1;
+    }
+     if(fruitXdie==x && fruitYdie==y){
+        gameover=true;
+    }
+    else if(fruitX==x&&fruitY==y){
+        fruitXdie = 100;
+        fruitYdie = 100;
+        score++;
+        fruitX = rand()%width;
+        fruitY = rand()%height;
+        if(score%10==0 && score!=0){
+            fruitXdie = rand()%width;
+            fruitYdie = rand()%height;
+        if (fruitX==0)
+            fruitX++;
+        if (fruitX==width)
+            fruitX--;
+        if (fruitY==0)
+            fruitY++;
+        if (fruitY==height)
+            fruitY--;
+        }
+    }
 }
 
 int main(){
