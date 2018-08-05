@@ -7,13 +7,14 @@
 using namespace std;
 const int width=50;
 const int height=20;
-int i,j,x,y,fruitX,fruitY,fruitXdie,fruitYdie,score,gameover=0;
+int i,j,x,y,fruitX,fruitY,fruitXdie,fruitYdie,score;
+bool gameover;
 enum eDirec{STOP =0,LEFT,RIGHT,UP,DOWN};
 enum eDirec dir;
 
 void Setup(){
     srand(time(NULL));
-	gameover = 0;
+	gameover = false;
 	dir = STOP;
     x = width/2;
     y=height/2;
@@ -78,19 +79,27 @@ void Input(){
         char strInput = getch();
         switch(strInput){
         case 'a':
+        case 'A':
+            if(dir!=RIGHT)
             dir = LEFT;
             break;
         case 'd':
+        case 'D':
+            if(dir!=LEFT)
             dir = RIGHT;
             break;
         case 'w':
+        case 'W':
+            if(dir!=DOWN)
             dir = UP;
             break;
         case 's':
+        case 'S':
+            if(dir!=UP)
             dir = DOWN;
             break;
         case 'x':
-            gameover = 1;
+            gameover = true;
             break;
         }
     }
@@ -127,7 +136,7 @@ void Logic(){
         x=width-1;
     }
      if(fruitXdie==x && fruitYdie==y){
-        gameover=1;
+        gameover=true;
     }
     else if(fruitX==x&&fruitY==y){
         fruitXdie = 100;
@@ -152,7 +161,7 @@ void Logic(){
 int main(){
     ShowConsoleCursor(false);
     Setup();
-    while(gameover==0){
+    while(!gameover){
         Sleep(10);
         Draw();
         Input();
