@@ -47,15 +47,12 @@ void ShowConsoleCursor(bool showFlag)
 void Draw(){
     clearScreen(); //system clear
     int i,j;
-for (i=0;i<=height;i++){
-    for (j=0;j<=width;j++){
-        if (i==0||i==height){
-            printf("+ ");}
-        else{
-            if(j==0||j==width)
+for (i=0;i<=height+1;i++){
+    for (j=0;j<=width+1;j++){
+        if(i==0||i==height+1||j==0||j==width+1){
             printf("+ ");
-            if(j==0||j==width)
-                printf("+ ");
+        }
+        else{
             if(y>=height){
                 y=1;
             }
@@ -67,7 +64,11 @@ for (i=0;i<=height;i++){
             else if(i==fruitYdie && j==fruitXdie)
                     printf(" D");
             else
-                printf("  ");}}
+
+                printf("  ");}
+
+
+        }
 
     printf("\n");
 }
@@ -141,22 +142,26 @@ void Logic(){
     else if(fruitX==x&&fruitY==y){
         fruitXdie = 100;
         fruitYdie = 100;
-        score++;
+        score+=10;
         fruitX = rand()%width;
         fruitY = rand()%height;
+        if (fruitX==0)
+            fruitX++;
+        if (fruitY==0)
+            fruitY++;
         if(score%10==0 && score!=0){
             fruitXdie = rand()%width;
             fruitYdie = rand()%height;
-        if (fruitX==0)
-            fruitX++;
-        if (fruitX==width)
-            fruitX--;
-        if (fruitY==0)
-            fruitY++;
-        if (fruitY==height)
-            fruitY--;
+        if (fruitXdie==0)
+            fruitXdie++;
+        if (fruitYdie==0)
+            fruitYdie++;
         }
     }
+}
+void clrscr()
+{
+    system("@cls||clear");
 }
 int main(){
     ShowConsoleCursor(false);
@@ -167,5 +172,8 @@ int main(){
         Input();
         Logic();
     }
+    clrscr();
+    printf("\n\n");
+    printf("\t\tGAME OVER!");
 return 0;
 }
