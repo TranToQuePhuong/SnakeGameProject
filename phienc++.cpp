@@ -21,8 +21,30 @@ void Setup(){
     fruitY=rand()%height;
     score=0;
 }
+void clearScreen()
+{
+    HANDLE hOut;
+    COORD Position;
+
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    Position.X = 0;
+    Position.Y = 0;
+    SetConsoleCursorPosition(hOut, Position);
+}
+
+void ShowConsoleCursor(bool showFlag)
+{
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    CONSOLE_CURSOR_INFO     cursorInfo;
+
+    GetConsoleCursorInfo(out, &cursorInfo);
+    cursorInfo.bVisible = showFlag; // set the cursor visibility
+    SetConsoleCursorInfo(out, &cursorInfo);
+}
 void Draw(){
-    system("cls"); //system clear
+    clearScreen(); //system clear
     int i,j;
 for (i=0;i<=height;i++){
     for (j=0;j<=width;j++){
@@ -35,15 +57,6 @@ for (i=0;i<=height;i++){
                 printf("+ ");
             if(y>=height){
                 y=1;
-            }
-            if(y<1) {
-                y=height-1;
-            }
-            if(x>=width){
-                x=0;
-            }
-            if(x<0) {
-                x=width-1;
             }
             if(i==y && j==x)
             printf("O ");
@@ -104,6 +117,15 @@ void Logic(){
     default:
         break;
     }
+    if(y<1){
+        y=height-1;
+    }
+    if(x>=width){
+        x=0;
+    }
+    if(x<0){
+        x=width-1;
+    }
      if(fruitXdie==x && fruitYdie==y){
         gameover=1;
     }
@@ -128,6 +150,7 @@ void Logic(){
     }
 }
 int main(){
+    ShowConsoleCursor(false);
     Setup();
     while(gameover==0){
         Sleep(10);
