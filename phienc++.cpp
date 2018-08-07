@@ -20,6 +20,12 @@ void Setup(){
     y=height/2;
     fruitX=rand()%width;
     fruitY=rand()%height;
+    if (fruitX==0)
+        fruitX++;
+    if (fruitY==0)
+        fruitY++;
+    fruitXdie = 100;
+    fruitYdie = 100;
     score=0;
 }
 void clearScreen()
@@ -53,9 +59,6 @@ for (i=0;i<=height+1;i++){
             printf("+ ");
         }
         else{
-            if(y>=height){
-                y=1;
-            }
             if(i==y && j==x)
             printf("O ");
             else if(i==fruitY&&j==fruitX)
@@ -127,6 +130,9 @@ void Logic(){
     default:
         break;
     }
+    if(y>=height){
+        y=1;
+    }
     if(y<1){
         y=height-1;
     }
@@ -159,14 +165,57 @@ void Logic(){
         }
     }
 }
-int main(){
-    ShowConsoleCursor(false);
+void clrscr(){
+    system("@cls||clear");
+}
+void gameLoop(){
+    int level;
+    clrscr();
+    printf("PLEASE CHOOSE YOUR LEVEL AND PRESS ENTER!\n");
+    printf("1:Easy\t\t2:Medium\t3:Hard\n");
+    scanf("%d",&level);
+    clrscr();
     Setup();
     while(!gameover){
+        switch(level){
+    case 1:
+        Sleep(50);
+        break;
+    case 2:
+        Sleep(30);
+        break;
+    case 3:
         Sleep(10);
+        break;
+        }
         Draw();
         Input();
         Logic();
     }
+}
+int main(){
+    char kb;
+    ShowConsoleCursor(false);
+    gameLoop();
+    do{
+        clrscr();
+        printf("\n\n");
+        printf("\t\tGAME OVER!!!!\t press N to replay press X to exit");
+        if(kbhit()){
+            kb = getch();
+            switch(kb){
+            case 'n':
+            case 'N':
+                gameLoop();
+                break;
+            case 'x':
+            case 'X':
+                gameover = false;
+                clrscr();
+                printf("\n\n\n\t\t\tGOOD BYE!");
+                break;
+            }
+        }
+    }while(gameover);
 return 0;
 }
