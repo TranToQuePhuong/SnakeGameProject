@@ -50,20 +50,20 @@ scanf("%d""%d",&height,&width);
 for (int i=0;i<=height;i++){
     for (int j=0;j<=width;j++){
         if (i==0||i==height){
-            cout<<"+ ";}
+            printf("+ ");}
         else{
             if(j==0||j==width)
-                cout<<"+ ";
+                printf("+ ");
             if(i==y && j==x)
-                cout<<"O ";
+                printf("O ");
             else if(i==fruitY&&j==fruitX)
-                cout<<"F ";
+                printf("F ");
             else
-                cout<<"  ";}}
+                printf("  ");}}
 
-    cout<<"\n";
+    printf("\n");
 }
-            cout<<"GAME START! \t\t\t Score:";
+            printf("GAME START! \t\t\t Score:");
 
 }
 void logic(){
