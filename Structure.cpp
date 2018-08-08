@@ -8,7 +8,7 @@ using namespace std;
 
 const int width=50;
 const int height=20;
-int i,j,k,x,y,fruitX,fruitY,fruitXdie,fruitYdie,score;
+int i,j,k,x,y,fruitX,fruitY,bigfruitX,bigfruitY,fruitXdie,fruitYdie,score,moves=0;
 int nTail=0;
 bool gameover;
 int tailX[100],tailY[100];
@@ -68,6 +68,8 @@ for (i=0;i<=height;i++){
                 printf(" F");
             else if(i==fruitYdie && j==fruitXdie)
                     printf(" D");
+                else if(i==bigfruitY && j==bigfruitX)
+                    printf(" E");
             	else{
             		bool print=false;
             		for(k=0;k<nTail;k++){
@@ -96,21 +98,25 @@ void Input(){
         case 'A':
             if(dir!=RIGHT)
             dir = LEFT;
+            moves++;
             break;
         case 'd':
         case 'D':
             if(dir!=LEFT)
             dir = RIGHT;
+            moves++;
             break;
         case 'w':
         case 'W':
             if(dir!=DOWN)
             dir = UP;
+            moves++;
             break;
         case 's':
         case 'S':
             if(dir!=UP)
             dir = DOWN;
+            moves++;
             break;
         case 'x':
             gameover = true;
@@ -161,13 +167,20 @@ void Logic(){
     if(x<0){
         x=width-1;
     }
+    if(moves>4){
+        bigfruitX=100;
+        bigfruitY=100;
+    }
      if(fruitXdie==x && fruitYdie==y){
         gameover=true;
     }
     else if(fruitX==x&&fruitY==y){
+    	bigfruitX = 100;
+        bigfruitY = 100;
         fruitXdie = 100;
         fruitYdie = 100;
         score++;
+        moves=0;
         fruitX = rand()%width;
         fruitY = rand()%height;
         nTail++;
@@ -183,9 +196,43 @@ void Logic(){
         if (fruitY==height)
             fruitY--;
         }
-    }
+        if(score%10==0 && score!=0){
+            fruitXdie = rand()%width;
+            fruitYdie = rand()%height;
+            if (fruitXdie==0)
+            fruitXdie++;
+            if (fruitXdie==width)
+            fruitXdie--;
+            if (fruitYdie==0)
+            fruitYdie++;
+            if (fruitYdie==height)
+            fruitYdie--;
+    	}
+        if(score%20==0 && score!=0){
+            bigfruitX = rand()%width;
+            bigfruitY = rand()%height;
+            if (bigfruitX==0)
+            bigfruitX++;
+            if (bigfruitX==width)
+            bigfruitX--;
+            if (bigfruitY==0)
+            bigfruitY++;
+            if (bigfruitY==height)
+            bigfruitY--;
+            if(bigfruitX==fruitXdie && bigfruitY==fruitYdie){
+                    bigfruitX++;
+                    bigfruitY++;
+    		}
+    		 else if(x==bigfruitX && y==bigfruitY){
+        		score+=5;
+        		bigfruitX = 100;
+      		 	bigfruitY = 100;
+        		fruitXdie = 100;
+        		fruitYdie = 100;
+    		}
+    	}
+	}
 }
-
 int main(){
 	ShowConsoleCursor(false);
     Setup();
