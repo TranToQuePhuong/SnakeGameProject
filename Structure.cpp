@@ -96,27 +96,31 @@ void Input(){
         switch(strInput){
         case 'a':
         case 'A':
-            if(dir!=RIGHT)
-            dir = LEFT;
-            moves++;
+            if(dir!=RIGHT){
+            	dir = LEFT;
+            	moves++;
+            }
             break;
         case 'd':
         case 'D':
-            if(dir!=LEFT)
-            dir = RIGHT;
-            moves++;
+            if(dir!=LEFT){
+            	dir = RIGHT;
+            	moves++;
+            }
             break;
         case 'w':
         case 'W':
-            if(dir!=DOWN)
-            dir = UP;
-            moves++;
+            if(dir!=DOWN){
+            	dir = UP;
+            	moves++;
+            }
             break;
         case 's':
         case 'S':
-            if(dir!=UP)
-            dir = DOWN;
-            moves++;
+            if(dir!=UP){
+            	dir = DOWN;
+            	moves++;
+            }
             break;
         case 'x':
             gameover = true;
