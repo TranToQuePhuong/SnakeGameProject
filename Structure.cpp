@@ -140,9 +140,10 @@ void Logic(){
 		prevX=tmpX;
 		prevY=tmpY;
 	}
-     switch(dir){
+    switch(dir){
     case LEFT:
         x--;
+        
         break;
     case RIGHT:
         x++;
@@ -159,14 +160,17 @@ void Logic(){
     default:
         break;
     }
-    if(y<1){
-        y=height-1;
+    if(y>height){
+        y=1;
     }
-    if(x>=width){
-        x=0;
+    if(y<1){
+        y=height;
+    }
+    if(x>width){
+        x=1;
     }
     if(x<0){
-        x=width-1;
+        x=width;
     }
     if(moves>4){
         bigfruitX=100;
@@ -182,49 +186,33 @@ void Logic(){
         fruitYdie = 100;
         score++;
         moves=0;
-        fruitX = rand()%width;
-        fruitY = rand()%height;
+        fruitX = rand()%(width+1);
+        fruitY = rand()%(height+1);
         nTail++;
-		if(score%10==0 && score!=0){
-            fruitXdie = rand()%width;
-            fruitYdie = rand()%height;
         if (fruitX==0)
             fruitX++;
-        if (fruitX==width)
-            fruitX--;
         if (fruitY==0)
             fruitY++;
-        if (fruitY==height)
-            fruitY--;
-        }
-        if(score%10==0 && score!=0){
-            fruitXdie = rand()%width;
-            fruitYdie = rand()%height;
+        if(score%10==0 && nTail!=0){
+            fruitXdie = rand()%(width+1);
+            fruitYdie = rand()%(height+1);
             if (fruitXdie==0)
-            fruitXdie++;
-            if (fruitXdie==width)
-            fruitXdie--;
+            	fruitXdie++;
             if (fruitYdie==0)
-            fruitYdie++;
-            if (fruitYdie==height)
-            fruitYdie--;
+            	fruitYdie++;
     	}
-        if(score%20==0 && score!=0){
-            bigfruitX = rand()%width;
-            bigfruitY = rand()%height;
+        if(score%20==0 && nTail!=0){
+            bigfruitX = rand()%(width+1);
+            bigfruitY = rand()%(height+1);
             if (bigfruitX==0)
             bigfruitX++;
-            if (bigfruitX==width)
-            bigfruitX--;
             if (bigfruitY==0)
             bigfruitY++;
-            if (bigfruitY==height)
-            bigfruitY--;
             if(bigfruitX==fruitXdie && bigfruitY==fruitYdie){
                     bigfruitX++;
                     bigfruitY++;
     		}
-    		 else if(x==bigfruitX && y==bigfruitY){
+    		else if(x==bigfruitX && y==bigfruitY){
         		score+=5;
         		bigfruitX = 100;
       		 	bigfruitY = 100;
