@@ -6,8 +6,8 @@
 #include <stdlib.h>
 using namespace std;
 
-const int width=50;
-const int height=20;
+const int width=25;
+const int height=25;
 int i,j,k,x,y,fruitX,fruitY,bigfruitX,bigfruitY,fruitXdie,fruitYdie,score,moves=0;
 int nTail=0;
 bool gameover;
@@ -50,39 +50,36 @@ void ShowConsoleCursor(bool showFlag)
 
 void Draw(){
     clearScreen(); //system clear
-    int i,j;
-for (i=0;i<=height;i++){
-    for (j=0;j<=width;j++){
-        if (i==0||i==height){
-            printf("+ ");}
-        else{
-            if(j==0||j==width)
-            printf("+ ");
-            if(y>=height){
-                y=1;
+for (i=0;i<=height+1;i++){
+    for (j=0;j<=width+1;j++){
+         if (i==0||i==height+1||j==0||j==width+1){
+            printf("* ");
             }
-            if(i==y && j==x)
-            printf("O ");
-            else if(i==fruitY&&j==fruitX)
-              /*  SetConsoleTextAttribute()*/
-                printf(" F");
-            else if(i==fruitYdie && j==fruitXdie)
-                    printf(" D");
-                else if(i==bigfruitY && j==bigfruitX)
-                    printf(" E");
+            else{
+				if(i==y && j==x)
+            		printf("O ");
+            	else if(i==fruitY&&j==fruitX)
+              	/*  SetConsoleTextAttribute()*/
+                	printf(" F");
             	else{
-            		bool print=false;
-            		for(k=0;k<nTail;k++){
-            			if (tailX[k]==j && tailY[k]==i){
-            				printf("o ");
-            				print=true;
+					 if(i==fruitYdie && j==fruitXdie)
+                    	printf(" D");
+                	else if(i==bigfruitY && j==bigfruitX)
+                    	printf(" E");
+            		else{
+            			bool print=false;
+            			for(k=0;k<nTail;k++){
+            				if (tailX[k]==j && tailY[k]==i){
+            					printf("o ");
+            					print=true;
+							}
 						}
-					}
-					if (!print){
-						printf("  ");
+						if (!print){
+							printf("  ");
 					}
 
 			 	}
+			}
 		}
 	}
     printf("\n");
