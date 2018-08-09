@@ -66,8 +66,8 @@ for (i=0;i<=height+1;i++){
             printf("* ");
             }
             else{
-				if(i==y && j==x)
-            		printf("O ");
+				if(i==y && j==x){
+            		printf("O ");}
             	else if(i==fruitY&&j==fruitX)
               	/*  SetConsoleTextAttribute()*/
                 	printf("F ");
@@ -270,13 +270,13 @@ void gameLoop(){
     while(!gameover){
         switch(level){
     case 1:
-        Sleep(50);
+        Sleep(80);
         break;
     case 2:
-        Sleep(30);
+        Sleep(40);
         break;
     case 3:
-        Sleep(10);
+        Sleep(2);
         break;
         }
         Draw();
