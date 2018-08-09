@@ -10,19 +10,29 @@ const int width=25;
 const int height=25;
 int i,j,k,x,y,fruitX,fruitY,bigfruitX,bigfruitY,fruitXdie,fruitYdie,score,moves=0;
 int nTail=0;
-bool gameover;
+bool gameover, pause=false;
 int tailX[100],tailY[100];
 enum eDirec{STOP =0,LEFT,RIGHT,UP,DOWN};
 enum eDirec dir;
 void Setup(){
+	int tailX[100]={0},tailY[100]={0};
  	srand(time(NULL));
-	gameover = false;
-	dir = STOP;
+    gameover = false;
+    dir = RIGHT;
     x = width/2;
-    y=height/2;
-    fruitX=rand()%width;
-    fruitY=rand()%height;
-    score=0;
+    y = height/2;
+    nTail = 0;
+    fruitX = rand()%width;
+    fruitY = rand()%height;
+    if (fruitX==0)
+        fruitX++;
+    if (fruitY==0)
+        fruitY++;
+    fruitXdie = 100;
+    fruitYdie = 100;
+    bigfruitX = 100;
+    bigfruitY = 100;
+    score = 0;
 }
 
 void clearScreen()
@@ -60,12 +70,12 @@ for (i=0;i<=height+1;i++){
             		printf("O ");
             	else if(i==fruitY&&j==fruitX)
               	/*  SetConsoleTextAttribute()*/
-                	printf(" F");
+                	printf("F ");
             	else{
 					 if(i==fruitYdie && j==fruitXdie)
-                    	printf(" D");
+                    	printf("D ");
                 	else if(i==bigfruitY && j==bigfruitX)
-                    	printf(" E");
+                    	printf("E ");
             		else{
             			bool print=false;
             			for(k=0;k<nTail;k++){
@@ -119,10 +129,18 @@ void Input(){
             	moves++;
             }
             break;
+        case 'X':
         case 'x':
             gameover = true;
             break;
-        }
+        case 'P':
+        case 'p':
+        	pause=true;
+        	system("pause");
+        	break;
+        default:
+        	break;
+    	}
     }
 }
 
@@ -172,6 +190,10 @@ void Logic(){
     if(x<0){
         x=width;
     }
+    for(i=0;i<nTail;i++){
+        if(tailX[i]==x && tailY[i]==y)
+            gameover=true;
+    }
     if(moves>4){
         bigfruitX=100;
         bigfruitY=100;
@@ -190,10 +212,10 @@ void Logic(){
         fruitY = rand()%(height+1);
         nTail++;
         if (fruitX==0)
-            fruitX++;
+            fruitX=2;
         if (fruitY==0)
-            fruitY++;
-        if(score%10==0 && nTail!=0){
+            fruitY=2;
+        if(nTail%5==0 && nTail!=0){
             fruitXdie = rand()%(width+1);
             fruitYdie = rand()%(height+1);
             if (fruitXdie==0)
@@ -201,7 +223,7 @@ void Logic(){
             if (fruitYdie==0)
             	fruitYdie++;
     	}
-        if(score%20==0 && nTail!=0){
+        if(nTail%10==0 && nTail!=0){
             bigfruitX = rand()%(width+1);
             bigfruitY = rand()%(height+1);
             if (bigfruitX==0)
@@ -230,16 +252,59 @@ void load(){
     for(q=0;q<=100000000;q++);//to display the character slowly
     printf("%c",177);}
 }
-int main(){
-	ShowConsoleCursor(false);
-    Setup();
+
+void clrscr()
+{
+    system("@cls||clear");
+}
+
+void gameLoop(){
+    int level;
+    clrscr();
+    printf("PLEASE CHOOSE YOUR LEVEL AND PRESS ENTER!\n");
+    printf("1:Easy\t\t2:Medium\t3:Hard\n");
+    scanf("%d",&level);
+    clrscr();
     load();
+    Setup();
     while(!gameover){
+        switch(level){
+    case 1:
         Sleep(50);
+        break;
+    case 2:
+        Sleep(30);
+        break;
+    case 3:
+        Sleep(10);
+        break;
+        }
         Draw();
         Input();
         Logic();
     }
+}
+
+int main(){
+ char kb;
+    ShowConsoleCursor(false);
+    gameLoop();
+    do{
+        clrscr();
+        printf("\n\n");
+        printf("\t\tGAME OVER!!!!\t press N to replay.");
+        if(kbhit()){
+            kb = getch();
+            switch(kb){
+        		case 'n':
+        		case 'N':
+            		gameLoop();
+            		break;
+            	default: 
+            		break;
+            }
+        }
+    }while(gameover);
     return 0;
 }
 
