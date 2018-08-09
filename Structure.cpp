@@ -67,7 +67,7 @@ for (i=0;i<=height+1;i++){
             }
             else{
 				if(i==y && j==x){
-            		printf("O ");}
+            		printf("%c ",1);}
             	else if(i==fruitY&&j==fruitX)
               	/*  SetConsoleTextAttribute()*/
                 	printf("F ");
